@@ -1,0 +1,130 @@
+{%  extends "layout.html" %}
+
+{% block title %}
+    Summary
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+
+{% block main %}
+    <div class="container summary_cont">
+        <div class="left">
+            <div class="section table-responsive">
+                <h2>Summary</h2>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Amount of shares in wallet</th>
+                            <th>Current price of share</th>
+                            <th>Total value in wallet</th>
+                            <th>Buy/sell</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in summary_table %}
+                        <tr>
+                            <td class="stock_symbol">{{ row["stock_symbol"] }}</td>
+                            <td>{{ row["total_shares"] }}</td>
+                            <td>{{ row["price"] | usd }}</td>
+                            <td class="total_value">{{ row["total_value"]  | usd}}</td>
+                            <td>
+                                <form action="/" method="get">
+                                    <div class="buy_sell_cont">
+                                        <div class="row">
+                                            <div class="col" id="select">
+                                                <input autocomplete="off" class="form-control mx-auto w-auto shares_input" onchange="assignSymbol(this)" size="3" style="line-height: 0.5;" type="text" defaultValue="0" min="1" name="shares" placeholder="shares" required type="number">
+                                                <input type="hidden" name="symbol" class="symbol_value" value="">
+                                                <select name="buy_or_sell" id="buy_sell" onchange="setPostRoute(this)">
+                                                    <option type="disabled">--</option>
+                                                    <option value="sell">Sell</option>
+                                                    <option value="buy">Buy</option>
+                                                </select>
+                                            </div>
+                                            <div class="col" id="sub_button">
+                                                <button class="btn btn-primary small_button" type="submit">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer_row"><strong>Cash: </strong></td>
+                            <td id="wallet_cash">{{ cash }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer_row"><strong>Total assets: </strong></td>
+                            <td><strong id="wallet_total">{{ total_assets }}</strong></td>
+                        </tr>
+                    </tfooter>
+                </table>
+            </div>
+            <div style="display:grid; justify-content:flex-end;">
+                <div class="button">
+                    <form action="/cash">
+                        <label for="symbol">Add cash to your wallet.</label><br>
+                        <button class="btn btn-primary" type="submit">+ CASH</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="chart">
+                <canvas id="myChart">
+                </canvas>
+            </div>
+        </div>
+    </div>
+<script>
+
+function assignSymbol(el) {
+        let row = el.closest('tr');
+        let symbol = row.cells[0].innerHTML;
+        let index = row.rowIndex
+
+        let shares = document.getElementsByClassName('shares_input');
+        let share = shares[index-1].value;
+
+        console.log(index)
+        console.log(shares)
+        console.log(share)
+
+        let input_element = document.getElementsByClassName('symbol_value')[index-1]
+        input_element.value = symbol
+
+        console.log(input_element.value)
+
+    }
+
+    function setPostRoute(el){
+        let row = el.closest('tr');
+        let current_form = el.closest('form');
+        let index = row.rowIndex;
+
+        if (el.value == 'sell'){
+            current_form.action = '/sell';
+            current_form.method = 'post';
+        }
+        else if(el.value == 'buy'){
+            current_form.action = '/buy';
+            current_form.method = 'post';
+        }
+    }
+    
+
+</script>
+
+{% endblock %}

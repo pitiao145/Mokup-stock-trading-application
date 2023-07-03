@@ -1,0 +1,32 @@
+{%  extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+
+{% block main %}
+<div class="container text-center">
+    <div class="table-responsive text-center">
+        <table class="table table-sm">
+            <thead>
+                <tr class="profile_row">
+                    <th>Your profile</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="profile_row">
+                    <td class="profile__data"><code>Username:</code></td>
+                    <td>{{ username }}</td>
+                </tr>
+                <tr class="profile_row">
+                    <td><code>Password:</code></td>
+                    <td><a href="/changepw">Change password</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{%  extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+
+{% block main %}
+
+    <form action="/buy" method="post">
+        <label for="symbol">Type the symbol of the stock you would like to buy, and specify the amount of shares.</label><br>
+        <a id="symbol_list"href="https://finance.yahoo.com/lookup">List of stock symbols</a>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="Stock symbol" type="text">
+            <input autocomplete="off"  class="form-control mx-auto w-auto" type="text" defaultValue="0" id="shares" min="1" name="shares" placeholder="Number of shares" required type="number">
+        </div>
+        <button class="btn btn-primary" type="submit">BUY</button>
+    </form>
+
+{% endblock %}

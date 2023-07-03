@@ -1,0 +1,36 @@
+{%  extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+
+{% block main %}
+    <div class="container summary_cont">
+        <div class="section table-responsive">
+            <h2>History of transactions</h2>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Shares (bought/ (-) sold)</th>
+                        <th>Price</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for row in history_table %}
+                    <tr>
+                        <td>{{ row["stock_symbol"] }}</td>
+                        <td>{{ row["shares"] }}</td>
+                        <td>{{ row["price"] | usd }}</td>
+                        <td>{{ row["time"] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
